@@ -1,5 +1,6 @@
 import React from 'react';
-
+import PageHeader from '../../components/PageHeader/PageHeader';
+import Button from '../../components/Button/Button';
 import MoneyGray from '../../images/money-gray.svg';
 import Trash from '../../images/trash-24.svg';
 
@@ -8,14 +9,7 @@ import './Job.css';
 export default function Job() {
   return (
     <div id="page-job">
-      <header className="page-header inner">
-        <div className="container animate-up">
-          <a href="index.html" className="back">
-            <img src="./images/back.svg" alt="" />
-          </a>
-          <h1>Adicionar Novo Job</h1>
-        </div>
-      </header>
+      <PageHeader title="Adicionar Novo Job" />
 
       <div className="container flex animate-up delay-2">
         <main>
@@ -58,21 +52,20 @@ export default function Job() {
           <img src={MoneyGray} alt="Imagem de Dinheiro" />
           <p>Preencha os dados ao lado para ver o valor do projeto</p>
           <div className="button-group">
-            <button
-              className="button green"
+            <Button
+              classDescription="button green"
               form="form-job"
               type="submit"
-              title="Salvar Dados"
-            >
-              Salvar
-            </button>
-            <a href="index.html" className="button gray">
+              text="Salvar"
+            />
+
+            <Button href="index.html" classDescription="button gray">
               <img
                 src={Trash}
                 alt="Cancelar cadastro"
                 title="Cancelar cadastro"
               />
-            </a>
+            </Button>
           </div>
         </aside>
       </div>

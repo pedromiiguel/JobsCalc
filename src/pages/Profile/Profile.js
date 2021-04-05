@@ -1,17 +1,12 @@
 import React from 'react';
+import PageHeader from '../../components/PageHeader/PageHeader';
+import Button from '../../components/Button/Button';
 import './Profile.css';
 
 export default function Profile() {
   return (
     <div id="page-profile">
-      <header className="page-header inner">
-        <div className="container animate-up">
-          <a href="index.html" className="back">
-            <img src="./images/back.svg" alt="" />
-          </a>
-          <h1>Meu Perfil</h1>
-        </div>
-      </header>
+      <PageHeader title="Meu perfil" />
 
       <div className="container animate-up delay-2">
         <aside className="card">
@@ -24,9 +19,12 @@ export default function Profile() {
             O valor da sua hora é <br />
             <strong>R$ 75,00</strong>
           </p>
-          <button className="button green" form="form-profile" type="submit">
-            Salvar dados
-          </button>
+          <Button
+            classDescription="button green"
+            form="form-profile"
+            type="submit"
+            text="Salvar dados"
+          />
         </aside>
         <main>
           <form id="form-profile">

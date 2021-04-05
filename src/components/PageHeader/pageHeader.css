@@ -10,7 +10,7 @@
   margin-bottom: 4rem;
 }
 
-.page-header.inner .container{
+.page-header.inner .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
@@ -26,146 +26,20 @@
   color: var(--color-header-inner-title);
 }
 
-
-#top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+@keyframes up {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-#logo {
-  width: 13rem;
-  height: 3rem;
-}
+.animate-up {
+  transform: translateY(35px);
+  opacity: 0;
 
-/* 
- * notification
-/* -------------------------------------------------- */
-#notification {
-  display: flex;
-  align-items: center;
-
-  font-family: Inter;
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-#notification img {
-  margin-right: 0.5rem; /* 8px of 16px root*/
-}
-
-/* 
- * avatar
-/* -------------------------------------------------- */
-#avatar-profile {
-  display: flex;
-  align-items: center;
-  color: var(--color-white);
-  text-decoration: none;
-
-  font-family: IBM Plex Sans;
-  text-align: right;
-}
-
-#avatar-profile p {
-  font-size: 1.25rem; /* 20px of 16px root*/
-  line-height: 1.875rem; /*30px of 16px root*/
-  margin-right: 1.25rem;
-
-  font-weight: 600;
-}
-
-#avatar-profile span {
-  display: block;
-
-  font-weight: normal;
-  font-size: 0.875rem; /* 14px of 16px root*/
-  line-height: 1.5rem; /* 24px of 16px root*/
-
-  font-weight: 400;
-}
-
-#avatar-profile p span:hover {
-  text-decoration: underline;
-  color:var(--color-secondary);
-}
-
-#avatar-profile img {
-  width: 4rem; /* 64px of 16px root*/
-  height: 4rem; /* 64px of 16px root*/
-  border-radius: 50%;
-  border: 0.156rem solid #F1972C; /* 2.5px of 16px root*/
-}
-
-/* 
- * summary
-/* -------------------------------------------------- */
-#summary {
-  margin-top: 2rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* 
- * summary info
-/* -------------------------------------------------- */
-#summary .info {
-  display:flex;
-  font-family: Inter;
-
-  margin-bottom: 2rem;
-}
-
-.info > div {
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.625rem;
-  
-  margin-right: 2.5rem; /* 40px of 16px root*/
-}
-
-.info > div > strong {
-  display: block;
-  
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.625rem; /* 26px of 16px root*/
-  
-}
-
-/* 
- * summary button
-/* -------------------------------------------------- */
-#summary .button {
-  padding: 0.75rem 1.25rem 0.75rem 0.75rem;
-  margin-bottom: 2.5rem;
-}
-
-#summary .button span::before {
-  width: 2rem;
-  height: 2rem;
-  content: " "; 
-  background-color: var(--color-background);
-  opacity: 0.16;
-  border-radius: 0.313rem; /* 5px of 16px root*/
-
-  position: absolute;
-}
-
-#summary .button span {
-  width: 2rem;
-  height: 2rem;
-
-  margin-right: 2rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#summary .button span img {
-  width: 1.5rem;
-  height: 1.5rem;
+  animation: up 200ms forwards;
 }
