@@ -1,19 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import App from './App';
-// import Landing from './pages/Landing/Landing';
-import Job from './pages/Job/Job';
-// import Profile from './pages/Profile/Profile';
-// import EditJob from './pages/EditJob/EditJob';
-// import Modal from './components/ModalDelete/ModalDelete';
+import App from './App';
 
 
-import './styles/global.css'
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Job />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
