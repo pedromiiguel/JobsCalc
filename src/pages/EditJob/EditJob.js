@@ -1,24 +1,89 @@
 import React from 'react';
+import Card from '../../components/Card/Card';
 import PageHeader from '../../components/PageHeader/PageHeader';
-import Button from '../../components/Button/Button';
-import Trash from '../../images/trash-24.svg';
+import styled from 'styled-components';
 import Money from '../../images/money-color.svg';
-import './EditJob.css';
+
+
+const PageEditJob = styled.div``;
+
+const Form = styled.form`
+  fieldset + fieldset {
+    margin-top: 3.5rem;
+  }
+
+  .separator {
+    margin-bottom: 2rem;
+  }
+`;
+
+Form.Fieldset = styled.fieldset`
+  border: none;
+`;
+
+Form.Legend = styled.legend`
+  color: ${(props) => props.theme.colors.colorCardTitle};
+
+  font-family: IBM Plex Sans;
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 2.625rem;
+`;
+
+Form.InputGroup = styled.div`
+  display: flex;
+  margin-top: 1.5rem;
+
+  .input-wrapper + .input-wrapper {
+    margin-left: 1.5rem;
+  }
+`;
+
+Form.Label = styled.label`
+  display: inline-block;
+
+  font-family: IBM Plex Sans;
+  font-weight: 500;
+  color: #787880;
+
+  margin-bottom: 1rem;
+`;
+
+Form.Input = styled.input`
+  font-family: IBM Plex Sans;
+  font-weight: 500;
+
+  background: white;
+
+  border: 1px solid #e1e3e6;
+  border-radius: 0.313rem;
+
+  padding: 0.75rem 1.5rem;
+
+  width: 100%;
+
+  color: ${(props) => props.theme.colors.colorCardTitle};
+
+  ::placeholder {
+    color: #bfbfcc;
+  }
+`;
+
 
 export default function EditJob() {
   return (
-    <div id="page-job-edit">
+    <PageEditJob id="page-job-edit">
       <PageHeader title="Editar Job" />
-      <div className="container flex animate-up delay-2">
+      <div className="container flex ">
         <main>
-          <form id="form-job">
-            <fieldset>
-              <legend>Dados do Job</legend>
+          <Form id="form-job">
+            <Form.Fieldset>
+              <Form.Legend >Dados do Job</Form.Legend >
               <div className="separator light"></div>
 
               <div className="input-wrapper">
-                <label htmlFor="name">Nome do Job</label>
-                <input
+                <Form.Label htmlFor="name">Nome do Job</Form.Label>
+                <Form.Input
                   type="text"
                   id="name"
                   name="name"
@@ -26,13 +91,13 @@ export default function EditJob() {
                 />
               </div>
 
-              <div className="input-group">
+              <Form.InputGroup className="input-group">
                 <div className="input-wrapper">
-                  <label htmlFor="daily-hours">
+                  <Form.Label htmlFor="daily-hours">
                     Quantas horas <br />
                     por dia vai dedicar ao job?
-                  </label>
-                  <input
+                  </Form.Label>
+                  <Form.Input
                     type="number"
                     step="0.1"
                     id="daily-hours"
@@ -42,44 +107,25 @@ export default function EditJob() {
                 </div>
 
                 <div className="input-wrapper">
-                  <label htmlFor="total-hours">
+                  <Form.Label htmlFor="total-hours">
                     Estimativa de <br />
                     horas para esse Job?
-                  </label>
-                  <input
+                  </Form.Label>
+                  <Form.Input
                     type="number"
                     id="total-hours"
                     name="total-hours"
                     value="40"
                   />
                 </div>
-              </div>
-            </fieldset>
-          </form>
+              </Form.InputGroup>
+            </Form.Fieldset>
+          </Form>
         </main>
-        <aside className="card">
+        <Card>
           <img src={Money} alt="Imagem de Dinheiro" />
-          <p>
-            O valor do projeto ficou em <strong>R$ 4576,00</strong>
-          </p>
-          <div className="button-group">
-            <Button
-              classDescription="button green"
-              form="form-job"
-              type="submit"
-              text="Salvar"
-            />
-
-            <Button href="#" classDescription="button gray open-modal">
-              <img
-                src={Trash}
-                alt="Cancelar cadastro"
-                title="Cancelar cadastro"
-              />
-            </Button>
-          </div>
-        </aside>
+        </Card>
       </div>
-    </div>
+    </PageEditJob>
   );
 }

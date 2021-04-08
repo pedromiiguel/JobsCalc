@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Cards from '../../components/Card/Card';
+import CardJobs from '../../components/CardJobs/CardJobs';
 import Logo from '../../images/logo.svg';
 import Alerta from '../../images/alert-octagon.svg';
 import Plus from '../../images/plus-24.svg';
 import Button from '../../components/Button/Button';
-// import './Index.css';
+import ModalDelete from '../../components/ModalDelete/ModalDelete';
 
 const Header = styled.header`
   background: ${(props) => props.theme.colors.colorPrimary};
@@ -146,9 +146,9 @@ PageIndex.Main = styled.main`
   margin-top: -2.825rem;
 `;
 
+export default function Index() {
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
-
-export default function Landing() {
   return (
     <PageIndex className="page-index">
       <Header className="page-header">
@@ -164,7 +164,10 @@ export default function Landing() {
               <p>
                 Jakeliny <Link to="/profiles">Ver perfil</Link>
               </p>
-              <img src="https://avatars.githubusercontent.com/u/17316392?s=460&u=6912a91a70bc89745a2079fdcdad3bc3ce370f13&v=4" />
+              <img
+                src="https://avatars.githubusercontent.com/u/17316392?s=460&u=6912a91a70bc89745a2079fdcdad3bc3ce370f13&v=4"
+                alt="Avatar"
+              />
             </a>
           </section>
 
@@ -203,11 +206,26 @@ export default function Landing() {
       <div className="container">
         <PageIndex.Main className="animate-up delay-2">
           <h1 className="sr-only">Trabalhos</h1>
-          <Cards style="progress" text="Em andamento" />
-          <Cards style="done" text="Encerrado" />
-          <Cards style="progress" text="Em andamento" />
+          <CardJobs
+            state="progress"
+            text="Em andamento"
+            setIsOpenModal={setIsOpenModal}
+          />
+          <CardJobs
+            state="done"
+            text="Encerrado"
+            setIsOpenModal={setIsOpenModal}
+
+          />
+          <CardJobs
+            state="progress"
+            text="Em andamento"
+            setIsOpenModal={setIsOpenModal}
+            
+          />
         </PageIndex.Main>
       </div>
+      {isOpenModal && <ModalDelete setIsOpenModal={setIsOpenModal} />}
     </PageIndex>
   );
 }

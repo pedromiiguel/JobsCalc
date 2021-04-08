@@ -6,7 +6,9 @@ import theme from './styles/theme';
 import Index from './pages/Index/Index';
 import Job from './pages/Job/Job';
 import Profile from './pages/Profile/Profile';
-// import EditJob from './pages/EditJob/EditJob';
+import EditJob from './pages/EditJob/EditJob';
+import ModalDelete from './components/ModalDelete/ModalDelete';
+
 // import Modal from './components/ModalDelete/ModalDelete';
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
           <Route exact path="/" component={Index}/>
           <Route exact path="/profiles" component={Profile} />
           <Route exact path="/add-jobs" component={Job} />
+          <Route exact path="/edit-jobs" component={EditJob} />
+          <Route exact path="/modal" component={ModalDelete} />
           <GlobalStyle />
         </ThemeProvider>
       </Switch>
