@@ -59,9 +59,9 @@ const Cards = styled.aside`
   }
 `;
 
-export default function Card({children}) {
+export default function Card({ children, id, ...rest }) {
   return (
-    <Cards className="card">
+    <Cards className="card" {...rest}>
       {children}
       <p>Preencha os dados ao lado para ver o valor do projeto</p>
       <div className="button-group">

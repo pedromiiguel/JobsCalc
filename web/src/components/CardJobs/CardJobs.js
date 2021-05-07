@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Button from '../Button/Button';
 import Edit from '../../images/edit-24.svg';
 import Trash from '../../images/trash-24.svg';
-
-
+import theme from '../../styles/theme';
 
 const Card = styled.div`
   .card {
@@ -81,7 +79,7 @@ const Card = styled.div`
     line-height: 2.125rem;
   }
 
-  .column.actions button img {
+  .column.actions a img {
     width: 1.5rem;
     height: 1.5rem;
   }
@@ -171,7 +169,36 @@ const Card = styled.div`
     color: ${(props) => props.theme.colors.colorBadgeDoneText};
   }
 
-  .actions button {
+  a {
+    padding: 0.75rem 3rem;
+    border-radius: 0.313rem;
+    border: 0;
+
+    font-family: IBM Plex Sans;
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1.625rem;
+    text-transform: uppercase;
+
+    transition: all 0.2s;
+
+    cursor: pointer;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    background: ${(props) => theme.colors.colorCardBackground};
+    border: 1px solid #e1e3e6;
+
+    line-height: 1.5rem;
+
+    &:hover {
+      background: ${(props) => theme.colors.colorBackground};
+    }
+  }
+
+  .actions a {
     width: 2.5rem;
     height: 2.5rem;
 
@@ -183,42 +210,51 @@ const Card = styled.div`
   }
 `;
 
-export default function CardJobs({ state, text, setIsOpenModal }) {
-
-
+export default function CardJobs({
+  status,
+  setIsOpenModal,
+  title,
+  remainingDays,
+  budget,
+  id,
+  setDeleteId,
+}) {
   return (
-    <Card class="cards">
-      <div class={`card ${state}`} data-id="1">
-        <div class="id column">1</div>
-        <div class="name column">Pizzaria Guloso</div>
-        <div class="deadline column">
+    <Card className="cards">
+      <div className={`card ${status}`} data-id={id}>
+        <div className="id column">{id}</div>
+        <div className="name column">{title}</div>
+        <div className="deadline column">
           <span>Prazo</span>
-          <p>3 dias para a entrega</p>
+
+          {status === 'progress' ? (
+            <p> {remainingDays} dias para a entrega</p>
+          ) : (
+            <p>Prazo Encerrado</p>
+          )}
         </div>
-        <div class="amount column">
+        <div className="amount column">
           <span>Valor</span>
-          <p>R$ 4500,00</p>
+          <p>R$ {budget.toFixed(2).replace('.', ',')}</p>
         </div>
-        <div class="status badge column">{text}</div>
-        <div class="actions column flex">
-          <p class="sr-only">Ações</p>
-          <Link to="/edit-jobs">
-            <Button
-              className="button white edit"
-              // title="Editar Job"
-            >
-              <img src={Edit} alt="Editar Job" />
-            </Button>
+        <div className="status badge column">
+          {status === 'progress' ? 'Em andamento' : 'Encerrado'}
+        </div>
+        <div className="actions column flex">
+          <p className="sr-only">Ações</p>
+          <Link to={`/edit-jobs/${id}`} title="Editar Job">
+            <img src={Edit} alt="Editar Job" />
           </Link>
 
-          <Link>
-            <Button
-              className="button white delete"
-              title="Excluir Job"
-              onClick={() => {setIsOpenModal(true)}}
-            >
-              <img src={Trash} alt="Excluir Job" />
-            </Button>
+          <Link
+            to=""
+            title="Excluir Job"
+            onClick={() => {
+              setIsOpenModal(true);
+              setDeleteId(id);
+            }}
+          >
+            <img src={Trash} alt="Excluir Job" />
           </Link>
         </div>
       </div>

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import CardJobs from '../../components/CardJobs/CardJobs';
 import Logo from '../../images/logo.svg';
 import Alerta from '../../images/alert-octagon.svg';
 import Plus from '../../images/plus-24.svg';
-import Button from '../../components/Button/Button';
 import ModalDelete from '../../components/ModalDelete/ModalDelete';
+import api from '../../services/api';
 
 const Header = styled.header`
   background: ${(props) => props.theme.colors.colorPrimary};
@@ -107,12 +107,12 @@ const Header = styled.header`
     line-height: 1.625rem; /* 26px of 16px root*/
   }
 
-  #summary button {
+  #summary a {
     padding: 0.75rem 1.25rem 0.75rem 0.75rem;
     margin-bottom: 2.5rem;
   }
 
-  #summary button span::before {
+  #summary a span::before {
     width: 2rem;
     height: 2rem;
     content: ' ';
@@ -123,20 +123,47 @@ const Header = styled.header`
     position: absolute;
   }
 
-  #summary button span {
+  #summary a span {
     width: 2rem;
     height: 2rem;
 
-    margin-right: 2rem;
+    margin-right: 1rem;
 
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  #summary button span img {
+  #summary a span img {
     width: 1.5rem;
     height: 1.5rem;
+  }
+
+  .button-add-jobs {
+    padding: 0.75rem 3rem;
+    border-radius: 0.313rem;
+    border: 0;
+
+    font-family: IBM Plex Sans;
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1.625rem;
+    text-transform: uppercase;
+
+    transition: all 0.2s;
+
+    cursor: pointer;
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    background: ${(props) => props.theme.colors.colorSecondary};
+    color: ${(props) => props.theme.colors.colorText};
+
+    &:hover {
+      background: ${(props) => props.theme.colors.colorSecondaryHover};
+    }
   }
 `;
 
@@ -148,6 +175,25 @@ PageIndex.Main = styled.main`
 
 export default function Index() {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [user, setUser] = useState({});
+  const [freeHours, setFreeHours] = useState('');
+  const [jobs, setJobs] = useState([]);
+  const [statusCount, setStatusCount] = useState([]);
+  const [deleteId, setDeleteId] = useState('');
+
+
+  useEffect(() => {
+    api.get('index').then((response) => {
+      setUser(response.data.profile);
+      setFreeHours(response.data.freeHours);
+      setJobs(response.data.jobs);
+      // setStatusCount(response.data.statusCount);
+      setStatusCount(response.data.statusCount);
+    });
+  }, [isOpenModal]);
+
+  console.log(jobs)
+
 
   return (
     <PageIndex className="page-index">
@@ -158,17 +204,16 @@ export default function Index() {
             <img id="logo" src={Logo} alt="Logo" />
             <span id="notification">
               <img src={Alerta} alt="Alerta" />
-              Você tem 2 horas livres no seu dia
+              {freeHours <= 0
+                ? 'Você não tem horas livres'
+                : `Você tem ${freeHours} horas livres no seu dia`}
             </span>
-            <a href="profile.html" id="avatar-profile">
+            <div href="profile.html" id="avatar-profile">
               <p>
-                Jakeliny <Link to="/profiles">Ver perfil</Link>
+                {user.name} <Link to="/profiles">Ver perfil</Link>
               </p>
-              <img
-                src="https://avatars.githubusercontent.com/u/17316392?s=460&u=6912a91a70bc89745a2079fdcdad3bc3ce370f13&v=4"
-                alt="Avatar"
-              />
-            </a>
+              <img src={user.avatar} alt="Avatar" />
+            </div>
           </section>
 
           <div className="separator"></div>
@@ -178,27 +223,29 @@ export default function Index() {
 
             <div className="info">
               <div className="total">
-                <strong>12</strong>
+                <strong>{statusCount.total}</strong>
                 Projetos ao total
               </div>
               <div className="in-progress">
-                <strong>7</strong>
+                <strong>{statusCount.progress}</strong>
                 Em andamento
               </div>
               <div className="finished">
-                <strong>4</strong>
+                <strong>{statusCount.done}</strong>
                 Encerrados
               </div>
             </div>
-            <Link to="/add-jobs">
-              <Button
-                color="#FCFDFF"
-                hover="#FA9C2D"
-                background="#F1972C"
-                text="Adicionar novo job"
-              >
+            <Link
+              to="/add-jobs"
+              className="button-add-jobs"
+              color="#FCFDFF"
+              hover="#FA9C2D"
+              background="#F1972C"
+            >
+              <span>
                 <img src={Plus} alt="Novo Job" />
-              </Button>
+              </span>
+              Adicionar novo job
             </Link>
           </section>
         </div>
@@ -206,26 +253,24 @@ export default function Index() {
       <div className="container">
         <PageIndex.Main className="animate-up delay-2">
           <h1 className="sr-only">Trabalhos</h1>
-          <CardJobs
-            state="progress"
-            text="Em andamento"
-            setIsOpenModal={setIsOpenModal}
-          />
-          <CardJobs
-            state="done"
-            text="Encerrado"
-            setIsOpenModal={setIsOpenModal}
-
-          />
-          <CardJobs
-            state="progress"
-            text="Em andamento"
-            setIsOpenModal={setIsOpenModal}
-            
-          />
+          {jobs.map((job, index) => (
+            <CardJobs
+              key={job.id}
+              data-id={job.id}
+              title={job.name}
+              status={job.status}
+              budget={job.budget}
+              id={job.id}
+              remainingDays={job.remaining}
+              setIsOpenModal={setIsOpenModal}
+              setDeleteId={setDeleteId}
+            />
+          ))}
         </PageIndex.Main>
       </div>
-      {isOpenModal && <ModalDelete setIsOpenModal={setIsOpenModal} />}
+      {isOpenModal && (
+        <ModalDelete setIsOpenModal={setIsOpenModal} id={deleteId} />
+      )}
     </PageIndex>
   );
 }

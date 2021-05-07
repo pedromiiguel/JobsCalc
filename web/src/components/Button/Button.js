@@ -39,7 +39,7 @@ export default function Buttons({
   ...rest
 }) {
   return (
-    <Button color={color} background={background} hover={hover} {...rest} >
+    <Button color={color} background={background} hover={hover} {...rest}>
       <span>{children}</span>
       {text}
     </Button>

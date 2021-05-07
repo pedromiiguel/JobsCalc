@@ -7,20 +7,18 @@ import Index from './pages/Index/Index';
 import Job from './pages/Job/Job';
 import Profile from './pages/Profile/Profile';
 import EditJob from './pages/EditJob/EditJob';
-import ModalDelete from './components/ModalDelete/ModalDelete';
 
-// import Modal from './components/ModalDelete/ModalDelete';
 
 function App() {
+  
   return (
     <BrowserRouter>
       <Switch>
         <ThemeProvider theme={theme}>
-          <Route exact path="/" component={Index}/>
-          <Route exact path="/profiles" component={Profile} />
-          <Route exact path="/add-jobs" component={Job} />
-          <Route exact path="/edit-jobs" component={EditJob} />
-          <Route exact path="/modal" component={ModalDelete} />
+          <Route  path="/" exact component={Index}/>
+          <Route  path="/profiles" component={Profile} />
+          <Route  path="/add-jobs" component={Job} />
+          <Route  path="/edit-jobs/:id" component={EditJob} />
           <GlobalStyle />
         </ThemeProvider>
       </Switch>

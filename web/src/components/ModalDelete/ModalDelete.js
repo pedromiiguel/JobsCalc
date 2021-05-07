@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Trash from '../../images/trash-48.svg';
+import Button from '../Button/Button';
+import api from '../../services/api';
+import { Link, Redirect } from 'react-router-dom';
 
 const ModalWrapper = styled.div`
   height: 100vh;
@@ -21,7 +24,6 @@ const ModalWrapper = styled.div`
 `;
 
 const Modal = styled.div`
-
   background: #f0f2f5;
   border-radius: 0.313rem;
   padding: 2.5rem;
@@ -62,11 +64,11 @@ const Modal = styled.div`
     cursor: pointer;
   }
 
-  footer button + button {
+  footer a + button {
     margin-left: 0.5rem;
   }
 
-  button {
+  a {
     padding: 0.75rem 3rem;
     border-radius: 0.313rem;
     border: 0;
@@ -86,26 +88,38 @@ const Modal = styled.div`
     align-items: center;
   }
 
-  footer button:nth-child(1) {
+  footer a {
     color: ${(props) => props.theme.colors.colorCardContent};
     background: ${(props) => props.theme.colors.colorCancel};
   }
 
-  footer button:nth-child(1):hover {
+  footer a:hover {
     background: #eceef0;
   }
 
-  footer button:nth-child(2) {
+  footer button {
     background: ${(props) => props.theme.colors.colorDelete};
     color: ${(props) => props.theme.colors.colorText};
   }
 
-  footer button:nth-child(2):hover {
+  footer button:hover {
     background: #fa3f38;
   }
 `;
 
-export default function ModalDelete({ setIsOpenModal }) {
+export default function ModalDelete({ setIsOpenModal, id }) {
+
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    await api.delete(`/job/delete/${id}`);
+
+    setIsOpenModal(false);
+    return <Redirect to="/"/>
+
+  }
+
   return (
     <ModalWrapper className="modal-wrapper on">
       <Modal className="modal">
@@ -116,13 +130,24 @@ export default function ModalDelete({ setIsOpenModal }) {
           Ele será apagado para sempre.
         </p>
         <footer>
-          <button className="button gray" onClick={ () => setIsOpenModal(false)} >Cancelar</button>
-          <button className="button red" onClick={ () => setIsOpenModal(false)} type="submit" form="delete-job">
+          <Link
+            to="/"
+            className="button gray"
+            onClick={() => setIsOpenModal(false)}
+          >
+            Cancelar
+          </Link>
+          <Button
+            type="submit"
+            className="button red"
+            onClick={handleSubmit}
+            form="delete-job"
+          >
             Excluir Job
-          </button>
+          </Button>
         </footer>
       </Modal>
-      <form method="post" action="/job/delete/{JOBID}" id="delete-job"></form>
+      {/* <form method="get" action={`/profile`} id="delete-job"></form> */}
     </ModalWrapper>
   );
 }

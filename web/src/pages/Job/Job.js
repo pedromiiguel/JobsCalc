@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PageHeader from '../../components/PageHeader/PageHeader';
-import Cards from '../../components/Card/Card';
+import Card from '../../components/Card/Card';
 import MoneyGray from '../../images/money-gray.svg';
+import api from '../../services/api';
+import { useHistory } from 'react-router-dom';
 
 const PageJob = styled.div``;
 
@@ -69,54 +71,80 @@ Form.Input = styled.input`
 `;
 
 export default function Job() {
+  const history = useHistory();
+  const [name, setName] = useState('');
+  const [dailyHours, setDailyHours] = useState('');
+  const [totalHours, setTotalHours] = useState('');
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const data = {
+      name,
+      daily_hours: dailyHours,
+      total_hours: totalHours,
+    };
+
+    await api.post('job', data);
+  
+    history.push('/');
+  }
+
   return (
     <PageJob id="page-job">
       <PageHeader title="Adicionar Novo Job" />
 
       <div className="container flex ">
         <main>
-          <Form id="form-job">
+          <Form id="form-job" onSubmit={handleSubmit}>
             <Form.Fieldset>
               <Form.Legend>Dados do Job</Form.Legend>
               <div className="separator light"></div>
 
               <div className="input-wrapper">
                 <Form.Label htmlFor="name">Nome do Job</Form.Label>
-                <Form.Input type="text" id="name" name="name" />
+                <Form.Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  onChange={(event) => setName(event.target.value)}
+                />
               </div>
 
               <Form.InputGroup className="input-group">
                 <div className="input-wrapper">
-                  <Form.Label htmlFor="daily-hours">
+                  <Form.Label htmlFor="daily_hours">
                     Quantas horas <br />
                     por dia vai dedicar ao job?
                   </Form.Label>
                   <Form.Input
                     type="number"
                     step="0.1"
-                    id="daily-hours"
+                    id="daily_hours"
                     name="daily-hours"
+                    onChange={(event) => setDailyHours(event.target.value)}
                   />
                 </div>
 
                 <div className="input-wrapper">
-                  <Form.Label htmlFor="total-hours">
+                  <Form.Label htmlFor="total_hours">
                     Estimativa de <br />
                     horas para esse Job?
                   </Form.Label>
                   <Form.Input
                     type="number"
-                    id="total-hours"
-                    name="total-hours"
+                    id="total_hours"
+                    name="total_hours"
+                    onChange={(event) => setTotalHours(event.target.value)}
                   />
                 </div>
               </Form.InputGroup>
             </Form.Fieldset>
           </Form>
         </main>
-        <Cards>
+        <Card form="form-job">
           <img src={MoneyGray} alt="Imagem de Dinheiro" />
-        </Cards>
+        </Card>
       </div>
     </PageJob>
   );

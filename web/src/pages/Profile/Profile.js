@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import Button from '../../components/Button/Button';
 import styled from 'styled-components';
+import api from '../../services/api';
+import { useHistory } from 'react-router-dom';
 
 const PageProfile = styled.div`
   width: 100vw;
@@ -120,20 +122,47 @@ Form.Input = styled.input`
 `;
 
 export default function Profile() {
+  const history = useHistory();
+
+  const [user, setUser] = useState({});
+  const [editUser, setEditUser] = useState({});
+
+  useEffect(() => {
+    api.get('profile').then((response) => {
+      // response.data.user['value-hour'].toFixed(2).replace('.', ',')
+      setUser({
+        name: response.data.name,
+        avatar: response.data.avatar,
+        monthly_budget: response.data.monthly_budget,
+        days_per_week: response.data.days_per_week,
+        hours_per_day: response.data.hours_per_day,
+        vacation_per_year: response.data.vacation_per_year,
+        value_hour: response.data.value_hour.toFixed(2).replace('.', ','),
+      });
+    });
+  }, []);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const data = editUser;
+
+    await api.post('profile', data);
+
+    history.push('/');
+  }
+
   return (
     <PageProfile id="page-profile">
       <PageHeader title="Meu perfil" />
 
       <PageProfile.Container className="container animate-up delay-2">
         <Card>
-          <img
-            src="https://avatars.githubusercontent.com/u/17316392?s=460&u=6912a91a70bc89745a2079fdcdad3bc3ce370f13&v=4"
-            alt="Jakeliny"
-          />
-          <h2>Jakeliny</h2>
+          <img src={user.avatar} alt="Imagem do perfil" />
+          <h2>{user.name}</h2>
           <p>
             O valor da sua hora é <br />
-            <strong>R$ 75,00</strong>
+            <strong>R$ {user.value_hour}</strong>
           </p>
           <Button
             color="#FCFDFF"
@@ -146,7 +175,7 @@ export default function Profile() {
         </Card>
 
         <PageProfile.Main>
-          <Form id="form-profile">
+          <Form id="form-profile" onSubmit={handleSubmit}>
             <Form.Fieldset>
               <Form.Legend>Dados do perfil</Form.Legend>
               <Form.Separator className="separator light"></Form.Separator>
@@ -154,7 +183,17 @@ export default function Profile() {
               <Form.InputGroup className="input-group">
                 <div className="input-wrapper">
                   <Form.Label htmlFor="name">Nome</Form.Label>
-                  <Form.Input type="text" id="name" name="name" />
+                  <Form.Input
+                    type="text"
+                    id="name"
+                    name="name"
+                    defaultValue={user.name}
+                    onChange={(event) => {
+                      setEditUser((prevUser) => {
+                        return { ...prevUser, name: event.target.value };
+                      });
+                    }}
+                  />
                 </div>
 
                 <div className="input-wrapper">
@@ -164,6 +203,12 @@ export default function Profile() {
                     type="url"
                     id="avatar"
                     name="avatar"
+                    defaultValue={user.avatar}
+                    onChange={(event) =>
+                      setEditUser((prevUser) => {
+                        return { ...prevUser, avatar: event.target.value };
+                      })
+                    }
                   />
                 </div>
               </Form.InputGroup>
@@ -175,54 +220,90 @@ export default function Profile() {
 
               <Form.InputGroup className="input-group">
                 <div className="input-wrapper">
-                  <Form.Label htmlFor="monthly-budget">
+                  <Form.Label htmlFor="monthly_budget">
                     Quanto eu <br />
                     quero ganhar por mês?
                   </Form.Label>
                   <Form.Input
                     type="amount"
                     step="0.1"
-                    id="monthly-budget"
-                    name="monthly-budget"
+                    id="monthly_budget"
+                    name="monthly_budget"
                     placeholder="R$"
+                    defaultValue={user.monthly_budget}
+                    onChange={(event) =>
+                      setEditUser((prevUser) => {
+                        return {
+                          ...prevUser,
+                          monthly_budget: event.target.value,
+                        };
+                      })
+                    }
                   />
                 </div>
 
                 <div className="input-wrapper">
-                  <Form.Label htmlFor="hours-per-day">
+                  <Form.Label htmlFor="hours_per_day">
                     Quantas horas <br />
                     quero trabalhar por dia?
                   </Form.Label>
                   <Form.Input
                     type="number"
-                    id="hours-per-day"
-                    name="hours-per-day"
+                    id="hours_per_day"
+                    name="hours_per_day"
+                    defaultValue={user.hours_per_day}
+                    onChange={(event) =>
+                      setEditUser((prevUser) => {
+                        return {
+                          ...prevUser,
+                          hours_per_day: event.target.value,
+                        };
+                      })
+                    }
                   />
                 </div>
               </Form.InputGroup>
 
               <Form.InputGroup className="input-group">
                 <div className="input-wrapper">
-                  <Form.Label htmlFor="days-per-week">
+                  <Form.Label htmlFor="days_per_week">
                     Quantos dias <br />
                     quero trabalhar por semana?
                   </Form.Label>
                   <Form.Input
                     type="number"
-                    id="days-per-week"
-                    name="days-per-week"
+                    id="days_per_week"
+                    name="days_per_week"
+                    defaultValue={user.days_per_week}
+                    onChange={(event) =>
+                      setEditUser((prevUser) => {
+                        return {
+                          ...prevUser,
+                          days_per_week: event.target.value,
+                        };
+                      })
+                    }
                   />
                 </div>
 
                 <div className="input-wrapper">
-                  <Form.Label htmlFor="vacation-per-year">
+                  <Form.Label htmlFor="vacation_per_year">
                     Quantas semanas <br />
                     por ano você quer tirar férias?
                   </Form.Label>
                   <Form.Input
                     type="number"
-                    id="vacation-per-year"
-                    name="vacation-per-year"
+                    id="vacation_per_year"
+                    name="vacation_per_year"
+                    defaultValue={user.vacation_per_year}
+                    onChange={(event) =>
+                      setEditUser((prevUser) => {
+                        return {
+                          ...prevUser,
+                          vacation_per_year: event.target.value,
+                        };
+                      })
+                    }
                   />
                 </div>
               </Form.InputGroup>
