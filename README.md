@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="JobsCalc" title="JobsCalc" src=".github/logo.svg" width="220px" color="#212529" />
+    <img alt="JobsCalc" title="JobsCalc" src=".github/logo.svg" color="#212529" />
 </h1>
 
 <p align="center">
@@ -21,13 +21,14 @@
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/pedromiiguel/JobsCalc">
   </a>
 
-
-  <!-- <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen"> -->
    <a href="https://github.com/pedromiiguel/JobsCalc/stargazers">
+    <img alt="License" src="https://img.shields.io/github/license/pedromiiguel/JobsCalc">
+  </a>
+
+   <a href="https://github.com/pedromiiguel/JobsCalc/blob/main/LICENSE">
     <img alt="Stargazers" src="https://img.shields.io/github/stars/pedromiiguel/JobsCalc?style=social">
   </a>
 </p>
-
 
 <br/>
 
@@ -37,11 +38,11 @@
 
 ## 🔖 Sobre
 
-Desenvolvindo durante a maratona Discover da Rocketseat, o JobsCalc é uma aplicação web de estimativa de cálculo para projetos freelancer, feito para você ter uma estimativa da suas horas trabalhadas. 
-
+Desenvolvindo durante a maratona Discover da Rocketseat, o JobsCalc é uma aplicação web de estimativa de cálculo para projetos freelancer, feito para você ter uma estimativa da suas horas trabalhadas.
 
 ## :pushpin: Melhorias
-  O front-end da aplicação foi feito com ReactJS e styled-components
+
+O front-end da aplicação foi feito com ReactJS e styled-components
 
 ## 🚀 Tecnologias
 
@@ -80,7 +81,7 @@ $ cd backend
 $ cd web
 
 # Instale as dependências
-$ npm install ou yarn 
+$ npm install ou yarn
 
 # Execute o frontend
 $ npm run start ou yarn start
@@ -89,8 +90,8 @@ $ npm run start ou yarn start
 $ npm run dev ou yarn dev
 
 
-# O React iniciará na porta:3000 - acesse http://localhost:3000 
-# O servidor iniciará na porta:3333 - acesse http://localhost:3333 
+# O React iniciará na porta:3000 - acesse http://localhost:3000
+# O servidor iniciará na porta:3333 - acesse http://localhost:3333
 
 ```
 
