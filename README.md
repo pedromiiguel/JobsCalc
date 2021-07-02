@@ -72,7 +72,7 @@ O layout da aplicação está disponível no [Figma](https://www.figma.com/file/
 $ git clone https://github.com/pedromiiguel/JobsCalc
 
 # Acesse a pasta do projeto no terminal/cmd
-$ cd jobscalc
+$ cd Jobscalc
 
 # Para iniciar o backend acesse a pasta
 $ cd backend
